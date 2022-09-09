@@ -4,14 +4,14 @@
 #   Author: Teasiu                                        #
 ###########################################################
 
-name: autowork
+name: autoworkmv200
 
 on:
   repository_dispatch:
   workflow_dispatch:
 
   schedule:
-    - cron: 0 8 * * *
+    - cron: 0 5 * * *
 
 jobs:
   build:
@@ -42,12 +42,18 @@ jobs:
         git clone ${{ secrets.WORK }} work
         cd work
         ls -al
-        bash mv100.sh -a
-        bash mv100.sh -b
-        bash mv100.sh -c
-        bash mv100.sh -d
-        bash mv100.sh -f
-        bash mv100.sh -g
+        bash mv200.sh -a
+        bash mv200.sh -b
+        bash mv200.sh -c
+        bash mv200.sh -e
+        bash mv200.sh -g
+        bash mv200.sh -p
+        bash mv200-64.sh -a
+        bash mv200-64.sh -b
+        bash mv200-64.sh -c
+        bash mv200-64.sh -e
+        bash mv200-64.sh -g
+        bash mv200-64.sh -p
 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
@@ -55,5 +61,5 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: "./work/out/hi3798mv100/"
-        server-dir: "mv100/"
+        local-dir: "./work/out/hi3798mv200/"
+        server-dir: "mv200/"
