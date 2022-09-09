@@ -31,18 +31,13 @@ jobs:
         sudo rm -rf /bin/sh
         sudo ln -s /bin/bash /bin/sh
 
-    - name: setup key
-      uses: webfactory/ssh-agent@v0.5.4
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    
-    - name: Start SSH via tmate
-      uses: P3TERX/ssh2actions@main
-      env:
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+#    - name: Start SSH via tmate
+#      uses: P3TERX/ssh2actions@main
+#      env:
+#        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+#        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         
-    - name: clone repo
+    - name: clone repo and make
       run: |
         git clone ${{ secrets.WORK }} work
         cd work

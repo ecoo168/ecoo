@@ -34,7 +34,7 @@ jobs:
     - name: setup key
       uses: webfactory/ssh-agent@v0.5.4
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_TWO }}
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     
     - name: clone repo and make
       run: |
