@@ -42,7 +42,12 @@ jobs:
         cd mv300
         ls -al
         pwd
+        bash mv300-64.sh -a
+        bash mv300-64.sh -m
         bash mv300-64.sh -f
+        bash mv300-64.sh -s
+        bash mv300-64.sh -w
+        bash mv300-64.sh -l
 
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0

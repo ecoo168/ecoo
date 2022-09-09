@@ -42,6 +42,11 @@ jobs:
         git clone ${{ secrets.WORK }} work
         cd work
         ls -al
+        bash mv100.sh -a
+        bash mv100.sh -b
+        bash mv100.sh -c
+        bash mv100.sh -d
+        bash mv100.sh -f
         bash mv100.sh -g
 
     - name: 📂 Sync files
