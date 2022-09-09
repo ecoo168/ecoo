@@ -1,0 +1,55 @@
+###########################################################
+#   Description: Compile work by GitHub Actions      #
+#   Based on:    										  #
+#   Author: Teasiu                                        #
+###########################################################
+
+name: auto300
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+
+  schedule:
+    - cron: 0 8 * * *
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Initialization Environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo -E apt-get update
+        sudo -E apt-get -y install build-essential zlib1g-dev bison flex libncurses-dev
+        sudo timedatectl set-timezone "Asia/Shanghai"
+        sudo rm -rf /bin/sh
+        sudo ln -s /bin/bash /bin/sh
+
+    - name: setup key
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_TWO }}
+    
+    - name: clone repo and make
+      run: |
+        git clone ${{ secrets.MV300 }} mv300
+        cd mv300
+        ls -al
+        pwd
+        bash mv300-64.sh -f
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: "./mv300/out/hi3798mv300/"
+        server-dir: "mv300/"
+

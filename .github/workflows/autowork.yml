@@ -1,0 +1,59 @@
+###########################################################
+#   Description: Compile work by GitHub Actions      #
+#   Based on:    										  #
+#   Author: Teasiu                                        #
+###########################################################
+
+name: autowork
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+
+  schedule:
+    - cron: 0 8 * * *
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Initialization Environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo -E apt-get update
+        sudo -E apt-get -y install build-essential zlib1g-dev bison flex libncurses-dev
+        sudo timedatectl set-timezone "Asia/Shanghai"
+        sudo rm -rf /bin/sh
+        sudo ln -s /bin/bash /bin/sh
+
+    - name: setup key
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    
+    - name: Start SSH via tmate
+      uses: P3TERX/ssh2actions@main
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        
+    - name: clone repo
+      run: |
+        git clone ${{ secrets.WORK }} work
+        cd work
+        ls -al
+        bash mv100.sh -g
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: "./work/out/hi3798mv100/"
+        server-dir: "mv100/"
