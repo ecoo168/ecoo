@@ -10,8 +10,8 @@ on:
   repository_dispatch:
   workflow_dispatch:
 
-  schedule:
-    - cron: 0 2 * * *
+#  schedule:
+#    - cron: 0 2 * * *
 
 jobs:
   build:
@@ -28,15 +28,14 @@ jobs:
         sudo -E apt-get update
         sudo -E apt-get -y install build-essential zlib1g-dev bison flex libncurses-dev
         sudo timedatectl set-timezone "Asia/Shanghai"
-        sudo rm -rf /bin/sh
-        sudo ln -s /bin/bash /bin/sh
+        sudo ln -sf /bin/bash /bin/sh
 
     - name: setup key
       uses: webfactory/ssh-agent@v0.5.4
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     
-    - name: clone repo and make
+    - name: clone repo and make fb
       run: |
         git clone ${{ secrets.MV300 }} mv300
         cd mv300

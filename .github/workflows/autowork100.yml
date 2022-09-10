@@ -10,8 +10,8 @@ on:
   repository_dispatch:
   workflow_dispatch:
 
-  schedule:
-    - cron: 0 8 * * *
+#  schedule:
+#    - cron: 0 8 * * *
 
 jobs:
   build:
@@ -28,8 +28,7 @@ jobs:
         sudo -E apt-get update
         sudo -E apt-get -y install build-essential zlib1g-dev bison flex libncurses-dev
         sudo timedatectl set-timezone "Asia/Shanghai"
-        sudo rm -rf /bin/sh
-        sudo ln -s /bin/bash /bin/sh
+        sudo ln -sf /bin/bash /bin/sh
 
 #    - name: Start SSH via tmate
 #      uses: P3TERX/ssh2actions@main
@@ -37,7 +36,7 @@ jobs:
 #        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 #        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         
-    - name: clone repo and make mv100
+    - name: clone repo and make mv100 fb
       run: |
         git clone ${{ secrets.WORK }} work
         cd work
